@@ -13,4 +13,18 @@ It works by caching users in a dictionary and watching for status changes based 
 
 # Setup
 
-WIP
+First, create a file in the root directory named `config.py`.
+
+Use this layout:
+```py
+TOKEN = '' #Bot token
+LOG_CHANNEL = 00000000000000 #The channel where you want the bot to log the status changes
+OWNER_ID = 00000000000000 #The ID of the owner (or the person you want pinged when a status is changed to offline)
+EMBEDS = True #Whether or not to log status changes in embeds
+EMBED_COLOR = 0x000280 #Can be a hex value like 0xFFFFFF or a value from the library like 'discord.Color.blue()'
+COGS = ['cogs.dev', 'cogs.watcher']
+```
+And replace the values accordingly.
+
+Then, to start the bot, you can start it from command line like `python bot.py`.
+The bot will automatically create the database. To add bots to watch, use the

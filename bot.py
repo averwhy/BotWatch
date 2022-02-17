@@ -5,11 +5,22 @@ import config
 import traceback
 import asyncio, os
 from datetime import datetime
+from cogs.utils import errors as BotErrors
 
 def get_pre(bot, message):
-    # epic variable name
-    _ = '' if message.author.id == bot.owner_id else '<'
-    return _
+    return '' if message.author.id == bot.owner_id else '~'
+
+def validate_config():
+    try: # Kinda weird way of checking, but it works
+        config.TOKEN = config.TOKEN
+        config.LOG_CHANNEL = config.LOG_CHANNEL
+        config.OWNER_ID = config.OWNER_ID
+        config.EMBEDS = config.EMBEDS
+        config.EMBED_COLOR = config.EMBED_COLOR
+        config.COGS = config.COGS
+    except:
+        raise BotErrors.InvalidConfig("Invalid configuration file, please use the config example in the README of the repository")
+    print("Config is valid")
 
 class BotWatch(commands.Bot):
     def __init__(self, *args, **kwargs):
@@ -28,18 +39,23 @@ async def launch(bot):
     await bot.db.execute("CREATE TABLE IF NOT EXISTS bots (id int, watchingsince blob)")
 
     bot.LOG_CHANNEL = config.LOG_CHANNEL
-    bot.server_whitelist = [724456699280359425]
+    bot.server_whitelist = [724456699280359425] #replace ID with servers you want allowed
 
     cur = await bot.db.execute("SELECT id FROM bots")
-    bot.watcher_cache = [bots for bots in await cur.fetchall()]
+    bot.watcher_cache = [bots[0] for bots in await cur.fetchall()]
+
+    validate_config()
+
 
 asyncio.run(launch(bot))
+
 os.environ["JISHAKU_NO_UNDERSCORE"] = "True"
 os.environ["JISHAKU_NO_DM_TRACEBACK"] = "True" 
 os.environ["JISHAKU_HIDE"] = "True"
 for c in config.COGS:
     try:
         bot.load_extension(c)
+        print(f"loaded cog: {c}")
     except Exception:
         print(traceback.format_exc())
 
