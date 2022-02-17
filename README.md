@@ -28,4 +28,5 @@ COGS = ['cogs.dev', 'cogs.watcher']
 And replace the values accordingly.
 
 Then, to start the bot, you can start it from command line like `python bot.py`.
-The bot will automatically create the database. To add bots to watch, use the
+The bot will automatically create the database. To add bots to watch, use the `add (id)` command.
+Note that you may have to do `~jsk` first before it allows you to do commands without the prefix. I dont know why this is the case.
