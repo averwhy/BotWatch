@@ -24,6 +24,7 @@ class dev(commands.Cog):
             return await ctx.send(":slight_smile: \U0001f44d")
         except Exception as e:
             return await ctx.send(f":pensive:\n{e}")
+
     @commands.command()
     async def watching(self, ctx):
         bots = "\n".join(f"<@{str(b)}>" for b in self.bot.watcher_cache) # `join` wont work with ints, so make string using this cool one liner

@@ -31,7 +31,6 @@ class BotWatch(commands.Bot):
         self.watcher_cache.append(botid)
         await self.db.commit()
 
-
 bot = BotWatch(command_prefix=get_pre, intents=discord.Intents.all())
 
 async def launch(bot):
